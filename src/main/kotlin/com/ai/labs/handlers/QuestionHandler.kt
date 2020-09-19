@@ -1,5 +1,8 @@
 package com.ai.labs.handlers
 
+import com.ai.labs.answerTemplates.names
+import com.ai.labs.answerTemplates.noAnswer
+
 val generalQuestionPrefixes = listOf("am", "is", "are", "do", "did", "does", "was", "were")
 val specialQuestionPrefixes = listOf("what", "where", "when", "why", "how", "whose", "whom")
 
@@ -23,8 +26,10 @@ fun questionHandler(sentence : String) : String {
 
     return when(type) {
         "General" -> listOf("Yes", "No").random()
-        "Who" ->  "Me"
-        "Alternative" ->  listOfWords.takeLastWhile { it != "or" }.toString().drop(1).dropLast(1)
+        "Who" ->  listOf("It`s me", "I thing it`s you", "My friend " + names.random(), noAnswer.random()).random()
+        "Alternative" ->  listOfWords.takeLastWhile { it != "or" }.toString().drop(1).dropLast(1).replace(", ", " ")
+        "Special" -> noAnswer.random()
+        "Tag" -> noAnswer.random()
         else -> "Sorry, I didn`t get you("
     }
 }
