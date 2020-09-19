@@ -1,5 +1,15 @@
 package com.ai.labs
 
+import com.ai.labs.handlers.*
+
+
 fun main() {
-    println("Chatiky ${Constants.getText()}!")
+
+    var sentence = ""
+    while(true) {
+        sentence = readLine()!!
+        if(sentence == "bye") break
+        if(sentence != null && sentence.isNotBlank()) println(questionHandler(sentence))
+    }
+
 }
