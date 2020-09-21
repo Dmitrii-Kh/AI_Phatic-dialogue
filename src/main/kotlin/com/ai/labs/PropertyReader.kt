@@ -39,6 +39,6 @@ class PropertyReader private constructor() {
     }
 
     init {
-        copyValues(fromPath("constants.properties"), true)
+        copyValues(fromPath("configurations.properties"), true)
     }
 }

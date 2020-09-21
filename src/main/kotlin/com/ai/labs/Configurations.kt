@@ -1,6 +1,6 @@
 package com.ai.labs
 
-class Constants {
+class Configurations {
 
     companion object {
         private fun read(value: String): String? {
