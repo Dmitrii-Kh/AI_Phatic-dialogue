@@ -8,7 +8,7 @@ fun main() {
     var sentence = ""
     while(true) {
         sentence = readLine()!!
-        if(sentence == "bye") break
+        if(sentence == "bye") { println("See you!"); break }
         if(sentence != null && sentence.isNotBlank()) println(questionHandler(sentence))
     }
 

@@ -7,7 +7,7 @@ val generalQuestionPrefixes = listOf("am", "is", "are", "do", "did", "does", "wa
 val specialQuestionPrefixes = listOf("what", "where", "when", "why", "how", "whose", "whom")
 
 
-fun defineQuestionType(splittedSentence:List<String>) : String {
+private fun defineQuestionType(splittedSentence:List<String>) : String {
 
     val questionWord = splittedSentence[0].toLowerCase()
     return when {
@@ -33,4 +33,3 @@ fun questionHandler(sentence : String) : String {
         else -> "Sorry, I didn`t get you("
     }
 }
-
