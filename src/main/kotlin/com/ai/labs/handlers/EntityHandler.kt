@@ -1,6 +1,7 @@
 package com.ai.labs.handlers
 
 import com.ai.labs.Configurations
+import com.ai.labs.answerTemplates.noAnswer
 import edu.stanford.nlp.coref.data.CorefChain
 import edu.stanford.nlp.ie.util.RelationTriple
 import edu.stanford.nlp.pipeline.CoreDocument
@@ -11,15 +12,14 @@ import java.util.*
 
 fun entityHandler(sentence: Sentence, type : String, answersTemplate : String) : String {
     val nerTags = sentence.nerTags()
+    if (nerTags.all { it == "0" }) return noAnswer.random()
     val entities = sentence.words().zip(nerTags).filter { it.second == type }.toMap().keys
-    val answers = answersTemplate.replace("*", entities.random()).split(";")
+    val answers = answersTemplate.replace("*", entities.random()).split(";").filter { !it.isBlank() || it.isNotEmpty() }
     return answers.random()
 }
 
 fun defineEntityGroupAndAnswer(sentence: Sentence) : String {
     return when {
-            //TODO rethink logic
-            //TODO add priorities for answer group and template
         sentence.nerTags().contains("PERSON") -> entityHandler(sentence, "PERSON", Configurations.getPersonAnswerTemplates().toString())
         sentence.nerTags().contains("NUMBER") -> entityHandler(sentence, "NUMBER", Configurations.getNumberAnswerTemplates().toString())
         sentence.nerTags().contains("DATE") -> entityHandler(sentence, "DATE", Configurations.getDateAnswerTemplates().toString())
@@ -29,8 +29,7 @@ fun defineEntityGroupAndAnswer(sentence: Sentence) : String {
         sentence.nerTags().contains("TIME") -> entityHandler(sentence, "TIME", Configurations.getTimeAnswerTemplates().toString())
         sentence.nerTags().contains("NATIONALITY") -> entityHandler(sentence, "NATIONALITY", Configurations.getNationalityAnswerTemplates().toString())
         sentence.nerTags().contains("MONEY") -> entityHandler(sentence, "MONEY", Configurations.getMoneyAnswerTemplates().toString())
-        else -> listOf("I don't understand(", "That's nice, but what do you think about today's weather?").random()
-            //TODO templates
+        else -> noAnswer.random()
     }
 }
 
