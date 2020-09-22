@@ -48,8 +48,9 @@ fun main() {
             println("Bye:)")
             break
         }
-        println(personHandler(sentenceString))
+        val sentence = Sentence(sentenceString)
+        //TODO checks
+        println(defineEntityGroupAndAnswer(sentence))
     }
-//TODO()
 
 }
