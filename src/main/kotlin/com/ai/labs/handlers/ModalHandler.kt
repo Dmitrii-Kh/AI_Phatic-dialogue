@@ -6,11 +6,8 @@ val modalVerbs = listOf("need", "might", "may", "can", "could", "will", "would",
 fun modalHandler(sentence : String) : String {
     val clearSent = sentence.replace(".", "").replace(",", "").replace("  ", " ").toLowerCase()
     val listOfWords = clearSent.split(" ")
-    print(listOfWords)
     var readyModal = findModal(listOfWords)
-    print(readyModal)
-    println(generateAnswer(readyModal))
-    return "done"
+    return generateAnswer(readyModal)
 }
 
 fun findModal(splittedSentence:List<String>) : MutableList<String> {
@@ -57,6 +54,6 @@ fun formAnswer(modal : String,verb : String) : String {
         "What's mean your \"$modal $verb\"?",
         "You really $modal $verb",
         "You want me to help you?",
-        "I don't understand, you $modal $verb me?"
+        "I don't understand, you $modal $verb ${listOf<String>("me","this","that").random()}?"
     ).random()
 }
