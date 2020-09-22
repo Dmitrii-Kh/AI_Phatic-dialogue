@@ -7,11 +7,32 @@ class Configurations {
             return PropertyReader.get().readValue(value)
         }
 
-        fun getText(): String? {
-            return read("text")
-        }
         fun getPersonAnswerTemplates() : String? {
             return read("personAnswerTemplates")
+        }
+        fun getNumberAnswerTemplates(): String? {
+            return read("numberAnswerTemplates")
+        }
+        fun getDateAnswerTemplates() : String? {
+            return read("dateAnswerTemplates")
+        }
+        fun gerOrganizationAnswerTemplates() : String? {
+            return read("organizationAnswerTemplates")
+        }
+        fun getCountryAnswerTemplates() : String? {
+            return read("countryAnswerTemplates")
+        }
+        fun getCityAnswerTemplates() : String? {
+            return read("cityAnswerTemplates")
+        }
+        fun getTimeAnswerTemplates() : String? {
+            return read("timeAnswerTemplates")
+        }
+        fun getMoneyAnswerTemplates() : String? {
+            return read("moneyAnswerTemplates")
+        }
+        fun getNationalityAnswerTemplates() : String? {
+            return read("nationalityAnswerTemplates")
         }
     }
 }
