@@ -1,9 +1,12 @@
 package com.ai.labs.handlers
 
+import com.ai.labs.Configurations
 import edu.stanford.nlp.coref.data.CorefChain
 import edu.stanford.nlp.ie.util.RelationTriple
 import edu.stanford.nlp.pipeline.CoreDocument
+import edu.stanford.nlp.pipeline.CoreSentence
 import edu.stanford.nlp.pipeline.StanfordCoreNLP
+import edu.stanford.nlp.simple.Sentence
 import edu.stanford.nlp.trees.Tree
 import java.util.*
 
@@ -112,4 +115,18 @@ fun main(args: Array<String>) {
     println("Example: canonical speaker of quote")
     println(quote.canonicalSpeaker().get())
     println()
+
 }
+
+val answersTemplate = Configurations.getPersonAnswerTemplates()
+
+
+fun personHandler(sentenceString: String) : String {
+    val sentence = Sentence(sentenceString)
+    val nerTags = sentence.nerTags()
+    val people = sentence.words().zip(nerTags).filter { it.second == "PERSON" }.toMap().keys
+    val answers = answersTemplate?.replace("*", people.random())?.split(";")
+    return answers?.random() ?: "That's nice, but what do you think about today's weather?"
+}
+
+
