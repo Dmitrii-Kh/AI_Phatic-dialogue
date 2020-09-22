@@ -10,5 +10,8 @@ class Configurations {
         fun getText(): String? {
             return read("text")
         }
+        fun getPersonAnswerTemplates() : String? {
+            return read("personAnswerTemplates")
+        }
     }
 }

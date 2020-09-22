@@ -1,9 +1,11 @@
 package com.ai.labs.handlers
 
+import com.ai.labs.Configurations
 import edu.stanford.nlp.coref.data.CorefChain
 import edu.stanford.nlp.ie.util.RelationTriple
 import edu.stanford.nlp.pipeline.CoreDocument
 import edu.stanford.nlp.pipeline.StanfordCoreNLP
+import edu.stanford.nlp.simple.Sentence
 import edu.stanford.nlp.trees.Tree
 import java.util.*
 
@@ -15,7 +17,7 @@ var text = "Joe Smith was born in California. " +
         "He sent a postcard to his sister Jane Smith. " +
         "After hearing about Joe's trip, Jane decided she might go to France one day."
 
-fun main(args: Array<String>) {
+fun main() {
     // set up pipeline properties
     val props = Properties()
     // set the list of annotators to run
@@ -60,7 +62,7 @@ fun main(args: Array<String>) {
     // constituency parse for the second sentence
     val constituencyParse: Tree = sentence.constituencyParse()
     println("Example: constituency parse")
-    System.out.println(constituencyParse)
+    println(constituencyParse)
     println()
 
     // dependency parse for the second sentence
@@ -112,4 +114,25 @@ fun main(args: Array<String>) {
     println("Example: canonical speaker of quote")
     println(quote.canonicalSpeaker().get())
     println()
+
 }
+
+val answersTemplate = Configurations.getPersonAnswerTemplates()
+
+//TODO handlers
+fun personHandler(sentence: Sentence) : String {
+    val nerTags = sentence.nerTags()
+    val people = sentence.words().zip(nerTags).filter { it.second == "PERSON" }.toMap().keys
+    val answers = answersTemplate?.replace("*", people.random())?.split(";")
+    return answers?.random() ?: "That's nice, but what do you think about today's weather?"
+}
+
+fun defineEntityGroupAndAnswer(sentence: Sentence) : String {
+    return when {
+        sentence.nerTags().contains("PERSON") -> personHandler(sentence)
+        else -> listOf("I don't understand(", "That's nice, but what do you think about today's weather?").random()
+        //TODO templates
+    }
+}
+
+
